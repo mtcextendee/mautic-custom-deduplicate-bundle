@@ -38,7 +38,7 @@ class CommandExecution
      */
     public function execute()
     {
-        $cmd = 'php '.$this->getDefaultConsolePath().' mautic:contacts:deduplicate:custom';
+        $cmd = 'php '.$this->getDefaultConsolePath().' mautic:contacts:deduplicate:custom --notify';
 
         if (substr(php_uname(), 0, 7) == "Windows") {
             pclose(popen("start /B ".$cmd, "r"));

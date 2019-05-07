@@ -89,6 +89,12 @@ class CustomDeduplicateCommand extends DeduplicateCommand
                 InputOption::VALUE_NONE,
                 'By default, this command will merge older contacts and activity into the newer. Use this flag to reverse that behavior.'
             )
+            ->addOption(
+                '--notify',
+                null,
+                InputOption::VALUE_NONE,
+                'Notify progress in notification area.'
+            )
             ->setHelp(
                 <<<'EOT'
 The <info>%command.name%</info> command will dedpulicate contacts based on unique identifier values. 
@@ -111,7 +117,22 @@ EOT
                 $message
             );
             $this->logger->debug($message);
-            return;
+            return 0;
+        }
+
+        $notify = (bool) $input->getOption('notify');
+
+        $key = __CLASS__;
+        if (!$this->checkRunStatus($input, $output, $key)) {
+            if ($notify) {
+                $this->sendProgressNotification();
+            }
+            return 0;
+        }
+
+
+        if ($notify) {
+            $this->sendStłartNotification();
         }
 
         define('MAUTIC_CUSTOM_DEDUPLICATE_COMMAND', 1);
@@ -128,6 +149,45 @@ EOT
             )
         );
 
+        if ($notify) {
+            $this->sendEndNotification($count);
+        }
+
+    }
+
+    private function sendStartNotification()
+    {
+        $this->notificationModel->addNotification(
+            '',
+            'info',
+            false,
+            $this->translator->trans('plugin.custom.deduplication.notification.start.header'),
+            'fa-user',
+            null,
+            $this->userModel->getSystemAdministrator()
+        );
+    }
+
+    private function sendProgressNotification()
+    {
+        $this->notificationModel->addNotification(
+            '',
+            'info',
+            false,
+            $this->translator->trans(
+                'plugin.custom.deduplication.notification.progress.header'
+            ),
+            'fa-user',
+            null,
+            $this->userModel->getSystemAdministrator()
+        );
+    }
+
+    /**
+     * @param $count
+     */
+    private function sendEndNotification($count)
+    {
         $this->notificationModel->addNotification(
             $this->translator->trans('plugin.custom.deduplication.notification.result.count',[
                 '%count%' => $count,
@@ -135,12 +195,12 @@ EOT
 
             'info',
             false,
-                $this->translator->trans(
-                    'plugin.custom.deduplication.notification.result.header'
-                ),
+            $this->translator->trans(
+                'plugin.custom.deduplication.notification.result.header'
+            ),
             'fa-user',
             null,
-            $this->userModel->getEntity(1)
+            $this->userModel->getSystemAdministrator()
         );
     }
 }
