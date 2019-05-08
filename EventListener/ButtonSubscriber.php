@@ -58,87 +58,37 @@ class ButtonSubscriber extends CommonSubscriber
         if (false === $integration || !$integration->getIntegrationSettings()->getIsPublished()) {
             return;
         }
-        $this->setEvent($event);
 
-        $buttons = [
-            [
-                'label'        => 'plugin.custom.deduplication',
-                'icon'         => 'fa fa-user',
-                'context'      => 'contact',
-            ],
-        ];
-
-        foreach ($buttons as $button) {
-            $this->addButtonGenerator($button['label'], $button['icon'], $button['context']);
-        }
-    }
-
-
-    /**
-     * @param        $objectAction
-     * @param        $btnText
-     * @param        $icon
-     * @param        $context
-     * @param int    $priority
-     * @param null   $target
-     * @param string $header
-     *
-     */
-    private function addButtonGenerator($btnText, $icon, $context, $priority = 1, $target = null, $header = '')
-    {
-        $event    = $this->getEvent();
-        $route    = $this->router->generate(
+        $route = $this->router->generate(
             'mautic_plugin_custom_deduplicate'
         );
-        $attr     = [
-            'href'        => $route,
-            'data-toggle' => 'ajax',
+        $attr  = [
+            'href'              => $route,
+            'data-toggle'       => 'ajax',
             'data-method'       => 'POST',
             'data-confirm-text' => $this->translator->trans('plugin.custom.deduplication.continue'),
         ];
 
-        switch ($target){
-            case '_blank':
-                $attr['data-toggle'] = '';
-                $attr['data-method'] = '';
-                $attr['target'] = $target;
-                break;
-            case '#MauticSharedModal':
-                $attr['data-toggle'] = 'ajaxmodal';
-                $attr['data-method'] = '';
-                $attr['data-target'] = $target;
-                $attr['data-header'] = $header;
-                break;
-        }
-
         $button =
             [
-                'attr'      => $attr,
-                'btnText'   => $this->translator->trans($btnText),
-                'iconClass' => $icon,
-                'priority'  => $priority,
+                'attr'     => $attr,
+                'priority' => -1,
+                'confirm'  => [
+                    'btnClass'      => false,
+                    'iconClass'     => 'fa fa-clone',
+                    'btnText'       => $this->translator->trans('plugin.custom.deduplication'),
+                    'message'       => $this->translator->trans('plugin.custom.deduplication.command.alert'),
+                    'confirmText'   => $this->translator->trans('plugin.custom.deduplication.command.run'),
+                    'confirmAction' => $route,
+                ],
             ];
+
         $event
             ->addButton(
                 $button,
                 ButtonHelper::LOCATION_PAGE_ACTIONS,
-                ['mautic_'.$context.'_index', []]
+                ['mautic_contact_index', []]
             );
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEvent()
-    {
-        return $this->event;
-    }
-
-    /**
-     * @param mixed $event
-     */
-    public function setEvent($event)
-    {
-        $this->event = $event;
-    }
 }

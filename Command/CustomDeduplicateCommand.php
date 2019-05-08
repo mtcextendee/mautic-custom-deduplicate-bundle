@@ -163,7 +163,7 @@ EOT
             'info',
             false,
             $this->translator->trans('plugin.custom.deduplication.notification.start.header'),
-            'fa-user',
+            'fa-clone',
             null,
             $this->userModel->getSystemAdministrator()
         );
@@ -178,7 +178,7 @@ EOT
             $this->translator->trans(
                 'plugin.custom.deduplication.notification.progress.header'
             ),
-            'fa-user',
+            'fa-clone',
             null,
             $this->userModel->getSystemAdministrator()
         );
@@ -199,7 +199,7 @@ EOT
             $this->translator->trans(
                 'plugin.custom.deduplication.notification.result.header'
             ),
-            'fa-user',
+            'fa-clone',
             null,
             $this->userModel->getSystemAdministrator()
         );
@@ -214,7 +214,7 @@ EOT
             $this->translator->trans(
                 'plugin.custom.deduplication.disabled'
             ),
-            'fa-user',
+            'fa-clone',
             null,
             $this->userModel->getSystemAdministrator()
         );
