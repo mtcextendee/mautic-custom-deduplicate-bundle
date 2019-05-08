@@ -16,7 +16,7 @@ use Mautic\CoreBundle\Event\CustomButtonEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
 use Mautic\EmailBundle\Entity\Email;
-use Mautic\LeadBundle\Event\CheckForDuplicateContactsEvent;
+use Mautic\LeadBundle\Event\DuplicateContactsEvent;
 use Mautic\LeadBundle\LeadEvents;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\CustomDuplications;
@@ -49,7 +49,7 @@ class CheckDeduplicateContactsListener extends CommonSubscriber
         ];
     }
 
-    public function checkForDuplicateContacts(CheckForDuplicateContactsEvent $event)
+    public function checkForDuplicateContacts(DuplicateContactsEvent $event)
     {
         if (!defined('MAUTIC_CUSTOM_DEDUPLICATE_COMMAND')) {
             return;
