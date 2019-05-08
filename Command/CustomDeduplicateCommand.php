@@ -116,6 +116,7 @@ EOT
             $output->writeln(
                 $message
             );
+            $this->sendDisabledNotification();
             $this->logger->debug($message);
             return 0;
         }
@@ -132,7 +133,7 @@ EOT
 
 
         if ($notify) {
-            $this->sendStłartNotification();
+            $this->sendStartNotification();
         }
 
         define('MAUTIC_CUSTOM_DEDUPLICATE_COMMAND', 1);
@@ -197,6 +198,21 @@ EOT
             false,
             $this->translator->trans(
                 'plugin.custom.deduplication.notification.result.header'
+            ),
+            'fa-user',
+            null,
+            $this->userModel->getSystemAdministrator()
+        );
+    }
+
+    private function sendDisabledNotification()
+    {
+        $this->notificationModel->addNotification(
+            '',
+            'info',
+            false,
+            $this->translator->trans(
+                'plugin.custom.deduplication.disabled'
             ),
             'fa-user',
             null,
