@@ -11,17 +11,10 @@
 
 namespace MauticPlugin\MauticCustomDeduplicateBundle\EventListener;
 
-use Mautic\CoreBundle\CoreEvents;
-use Mautic\CoreBundle\Event\CustomButtonEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
-use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
-use Mautic\EmailBundle\Entity\Email;
 use Mautic\LeadBundle\Event\DuplicateContactsEvent;
-use Mautic\LeadBundle\LeadEvents;
-use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\CustomDuplications;
 use MauticPlugin\MauticCustomDeduplicateBundle\Integration\ECronTesterIntegration;
-use MauticPlugin\MauticMailTesterBundle\Integration\MailTesterIntegration;
 
 class CheckDeduplicateContactsListener extends CommonSubscriber
 {
@@ -45,7 +38,7 @@ class CheckDeduplicateContactsListener extends CommonSubscriber
     public static function getSubscribedEvents()
     {
         return [
-            LeadEvents::CHECK_FOR_DUPLICATE_CONTACTS_EVENT => ['checkForDuplicateContacts', 0],
+          //  LeadEvents::CHECK_FOR_DUPLICATE_CONTACTS_EVENT => ['checkForDuplicateContacts', 0],
         ];
     }
 
