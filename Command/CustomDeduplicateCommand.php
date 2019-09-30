@@ -15,7 +15,6 @@ use Mautic\CoreBundle\Model\NotificationModel;
 use Mautic\LeadBundle\Command\DeduplicateCommand;
 use Mautic\LeadBundle\Deduplicate\ContactDeduper;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use Mautic\UserBundle\Entity\User;
 use Mautic\UserBundle\Model\UserModel;
 use Monolog\Logger;
 use Symfony\Component\Console\Input\InputInterface;
@@ -122,7 +121,6 @@ EOT
         }
 
         $notify = (bool) $input->getOption('notify');
-
         $key = __CLASS__;
         if (!$this->checkRunStatus($input, $output, $key)) {
             if ($notify) {

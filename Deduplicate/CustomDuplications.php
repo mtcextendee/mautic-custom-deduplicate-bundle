@@ -87,11 +87,15 @@ class CustomDuplications
         $q = $this->entityManager->getConnection()->createQueryBuilder()
             ->select('l.*')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
-
         // loop through the fields and
         foreach ($uniqueFieldsWithData as $col => $val) {
-            $q->andWhere("l.$col = :".$col)
-                ->setParameter($col, $val);
+            $q->andWhere(
+                $q->expr()->andX(
+                    $q->expr()->eq('l.'.$col, ':'.$col),
+                    $q->expr()->neq('l.'.$col, $q->expr()->literal('')),
+                    $q->expr()->isNotNull('l.'.$col)
+                )
+            )->setParameter($col, $val);
         }
 
         // if we have a lead ID lets use it
@@ -114,7 +118,6 @@ class CustomDuplications
             $q->setMaxResults($limit);
         }
         $results = $q->execute()->fetchAll();
-
         // Collect the IDs
         $leads = [];
         foreach ($results as $r) {
@@ -147,10 +150,6 @@ class CustomDuplications
         $uniqueLeadFields = $this->fields->getCustomUniqueFields();
         $uniqueLeadFieldData = [];
         foreach ($queryFields as $k => $v) {
-            // Don't use empty values when checking for duplicates
-            if (empty($v)) {
-                continue;
-            }
             if (in_array($k, $uniqueLeadFields)) {
                 $uniqueLeadFieldData[$k] = $v;
             }
