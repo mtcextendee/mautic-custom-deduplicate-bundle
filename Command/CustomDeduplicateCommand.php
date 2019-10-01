@@ -151,7 +151,7 @@ EOT
         if ($notify) {
             $this->sendEndNotification($count);
         }
-
+        return 0;
     }
 
     private function sendStartNotification()
