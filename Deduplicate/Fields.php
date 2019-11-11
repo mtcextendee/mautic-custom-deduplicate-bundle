@@ -11,11 +11,7 @@
 
 namespace MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate;
 
-use Doctrine\ORM\EntityManager;
-use Mautic\LeadBundle\Entity\Lead;
-use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
-use Mautic\PointBundle\Model\TriggerModel;
 
 class Fields
 {
@@ -53,6 +49,15 @@ class Fields
     public function getCustomUniqueFields()
     {
         return isset($this->settings['uniqueFields']) ? $this->settings['uniqueFields'] : [];
+    }
+
+
+    /**
+     * @return bool
+     */
+    public function hasSegmentCheck()
+    {
+        return isset($this->settings['segmentCheck']) ? $this->settings['segmentCheck'] : false;
     }
 
     /**

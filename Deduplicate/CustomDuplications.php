@@ -12,6 +12,7 @@
 namespace MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate;
 
 use Doctrine\ORM\EntityManager;
+use Mautic\CoreBundle\Helper\ArrayHelper;
 use Mautic\LeadBundle\Entity\LeadRepository;
 use Mautic\PointBundle\Model\TriggerModel;
 
@@ -69,7 +70,7 @@ class CustomDuplications
         if (!$this->fields->hasNotEmptyFieldsToSkip($fields)) {
             $uniqueData = $this->getCustomUniqueData($fields);
             if (!empty($uniqueData)) {
-                return $this->getContactsByUniqueFields($uniqueData);
+                return $this->getContactsByUniqueFields($uniqueData, ArrayHelper::getValue('id', $fields));
             }
         }
 
@@ -85,7 +86,7 @@ class CustomDuplications
     private function getContactsByUniqueFields($uniqueFieldsWithData, $leadId = null, $limit = null)
     {
         $q = $this->entityManager->getConnection()->createQueryBuilder()
-            ->select('l.*')
+            ->select('l.id')
             ->from(MAUTIC_TABLE_PREFIX.'leads', 'l');
         // loop through the fields and
         foreach ($uniqueFieldsWithData as $col => $val) {
@@ -99,11 +100,11 @@ class CustomDuplications
         }
 
         // if we have a lead ID lets use it
-        if (!empty($leadId)) {
+    /*    if (!empty($leadId)) {
             // make sure that its not the id we already have
             $q->andWhere('l.id != :leadId')
                 ->setParameter('leadId', $leadId);
-        }
+        }*/
 
         foreach ($this->fields->getFieldsToSkip() as $col) {
             $q->andWhere(
@@ -112,6 +113,19 @@ class CustomDuplications
                     $q->expr()->isNull('l.'.$col)
                 )
             );
+        }
+
+        if ($this->fields->hasSegmentCheck()) {
+            $subQueryBuilder = $this->entityManager->getConnection()->createQueryBuilder();
+            $subQueryBuilder
+                ->select('lll.leadlist_id')->from(MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'lll')
+                ->andWhere('lll.lead_id = '.$leadId)
+                ->andWhere('lll.manually_removed = 0');
+
+            $q->innerJoin('l', MAUTIC_TABLE_PREFIX.'lead_lists_leads', 'lll2', 'lll2.lead_id = l.id AND lll2.manually_removed = 0');
+            $q->andWhere($q->expr()->in('lll2.leadlist_id', sprintf('(%s)', $subQueryBuilder->getSQL()) ));
+            $q->groupBy('l.id');
+
         }
 
         if ($limit) {

@@ -4,7 +4,6 @@ namespace MauticPlugin\MauticCustomDeduplicateBundle\Integration;
 
 use Mautic\LeadBundle\Form\Type\LeadFieldsType;
 use Mautic\PluginBundle\Integration\AbstractIntegration;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilder;
 
 class CustomDeduplicateIntegration extends AbstractIntegration
@@ -68,6 +67,16 @@ class CustomDeduplicateIntegration extends AbstractIntegration
                     ],
                     'required' => false,
                     'multiple' => true,
+                ]
+            );
+
+            $builder->add(
+                'segmentCheck',
+                'yesno_button_group',
+                [
+                    'label' => 'plugin.custom.deduplication.form.segment.check',
+                    'attr'  => [
+                    ],
                 ]
             );
         }
