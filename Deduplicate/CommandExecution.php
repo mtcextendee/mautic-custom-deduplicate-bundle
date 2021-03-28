@@ -15,14 +15,11 @@ use Mautic\CoreBundle\Helper\CoreParametersHelper;
 
 class CommandExecution
 {
-    /**
-     * @var CoreParametersHelper
-     */
-    private $coreParametersHelper;
+    private string $rootDir;
 
-    public function __construct(CoreParametersHelper $coreParametersHelper)
+    public function __construct(string $rootDir)
     {
-        $this->coreParametersHelper = $coreParametersHelper;
+        $this->rootDir = $rootDir;
     }
 
     /**
@@ -30,7 +27,7 @@ class CommandExecution
      */
     public function getDefaultConsolePath()
     {
-        return $this->coreParametersHelper->getParameter('kernel.root_dir').'/console';
+        return $this->rootDir.'/../bin/console';
     }
 
     /**
@@ -39,7 +36,6 @@ class CommandExecution
     public function execute()
     {
         $cmd = 'php '.$this->getDefaultConsolePath().' mautic:contacts:deduplicate:custom --notify --env='.MAUTIC_ENV;
-
         if ('Windows' == substr(php_uname(), 0, 7)) {
             pclose(popen('start /B '.$cmd, 'r'));
         } else {

@@ -48,9 +48,7 @@ return [
             ],
             'mautic.plugin.custom.duplicate.command.execute' => [
                 'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\CommandExecution::class,
-                'arguments' => [
-                    'mautic.helper.core_parameters',
-                ],
+                'arguments' => '%kernel.root_dir%',
             ],
         ],
         'command'=> [
