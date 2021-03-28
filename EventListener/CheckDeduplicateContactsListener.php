@@ -16,8 +16,9 @@ use Mautic\LeadBundle\Event\DuplicateContactsEvent;
 use Mautic\LeadBundle\LeadEvents;
 use MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\CustomDuplications;
 use MauticPlugin\MauticCustomDeduplicateBundle\Integration\ECronTesterIntegration;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
-class CheckDeduplicateContactsListener extends CommonSubscriber
+class CheckDeduplicateContactsListener implements EventSubscriberInterface
 {
 
     /**

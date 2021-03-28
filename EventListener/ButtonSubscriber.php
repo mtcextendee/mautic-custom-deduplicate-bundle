@@ -15,12 +15,14 @@ use Mautic\CoreBundle\CoreEvents;
 use Mautic\CoreBundle\Event\CustomButtonEvent;
 use Mautic\CoreBundle\EventListener\CommonSubscriber;
 use Mautic\CoreBundle\Templating\Helper\ButtonHelper;
-use Mautic\EmailBundle\Entity\Email;
 use Mautic\PluginBundle\Helper\IntegrationHelper;
 use MauticPlugin\MauticCustomDeduplicateBundle\Integration\ECronTesterIntegration;
 use MauticPlugin\MauticMailTesterBundle\Integration\MailTesterIntegration;
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Routing\RouterInterface;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
-class ButtonSubscriber extends CommonSubscriber
+class ButtonSubscriber implements EventSubscriberInterface
 {
     /**
      * @var IntegrationHelper
@@ -32,13 +34,25 @@ class ButtonSubscriber extends CommonSubscriber
     private $objectId;
 
     /**
+     * @var RouterInterface
+     */
+    private RouterInterface $router;
+
+    /**
+     * @var TranslatorInterface
+     */
+    private TranslatorInterface $translator;
+
+    /**
      * ButtonSubscriber constructor.
      *
      * @param IntegrationHelper $helper
      */
-    public function __construct(IntegrationHelper $integrationHelper)
+    public function __construct(IntegrationHelper $integrationHelper, RouterInterface $router, TranslatorInterface $translator)
     {
         $this->integrationHelper = $integrationHelper;
+        $this->router = $router;
+        $this->translator = $translator;
     }
 
     public static function getSubscribedEvents()

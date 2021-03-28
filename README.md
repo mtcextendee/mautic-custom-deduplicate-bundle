@@ -30,7 +30,7 @@ and prevent multiple deduplicate run.
 
 ## Usage
 
-- Require this pull request https://github.com/mautic/mautic/pull/7502
+- Require this pull request https://github.com/mautic/mautic/pull/9844
 - From console: `php app/console mautic:contacts:deduplicate:custom`
 - From Mautic 
 

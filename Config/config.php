@@ -19,6 +19,8 @@ return [
                 'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\EventListener\ButtonSubscriber::class,
                 'arguments' => [
                     'mautic.helper.integration',
+                    'router',
+                    'translator'
                 ],
             ],
             'mautic.plugin.custom.deduplicate.contacts.subscriber' => [
@@ -64,6 +66,29 @@ return [
                 ],
                 'tag' => 'console.command',
             ],
-        ]
+        ],
+        'integrations' => [
+            'mautic.integration.customdeduplicate' => [
+                'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\Integration\CustomDeduplicateIntegration::class,
+                'arguments' => [
+                    'event_dispatcher',
+                    'mautic.helper.cache_storage',
+                    'doctrine.orm.entity_manager',
+                    'session',
+                    'request_stack',
+                    'router',
+                    'translator',
+                    'monolog.logger.mautic',
+                    'mautic.helper.encryption',
+                    'mautic.lead.model.lead',
+                    'mautic.lead.model.company',
+                    'mautic.helper.paths',
+                    'mautic.core.model.notification',
+                    'mautic.lead.model.field',
+                    'mautic.plugin.model.integration_entity',
+                    'mautic.lead.model.dnc',
+                ],
+            ],
+        ],
     ],
 ];
