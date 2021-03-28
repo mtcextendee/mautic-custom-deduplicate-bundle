@@ -20,7 +20,6 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class CheckDeduplicateContactsListener implements EventSubscriberInterface
 {
-
     /**
      * @var CustomDuplications
      */
@@ -28,12 +27,9 @@ class CheckDeduplicateContactsListener implements EventSubscriberInterface
 
     /**
      * CheckDeduplicateContactsListener constructor.
-     *
-     * @param CustomDuplications $customDuplications
      */
     public function __construct(CustomDuplications $customDuplications)
     {
-
         $this->customDuplications = $customDuplications;
     }
 
@@ -52,5 +48,4 @@ class CheckDeduplicateContactsListener implements EventSubscriberInterface
         $duplications = $this->customDuplications->customCheckForDuplicateContacts($event->getFields());
         $event->setDuplicates($duplications);
     }
-
 }

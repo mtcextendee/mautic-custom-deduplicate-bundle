@@ -29,10 +29,6 @@ class ButtonSubscriber implements EventSubscriberInterface
      */
     protected $integrationHelper;
 
-    private $event;
-
-    private $objectId;
-
     /**
      * @var RouterInterface
      */

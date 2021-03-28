@@ -42,7 +42,7 @@ class CustomDeduplicateIntegration extends AbstractIntegration
      */
     public function appendToForm(&$builder, $data, $formArea)
     {
-        if ($formArea == 'features') {
+        if ('features' == $formArea) {
             $builder->add(
                 'uniqueFields',
                 LeadFieldsType::class,
@@ -72,5 +72,4 @@ class CustomDeduplicateIntegration extends AbstractIntegration
             );
         }
     }
-
 }

@@ -56,24 +56,17 @@ class CustomDeduplicateCommand extends DeduplicateCommand
 
     /**
      * DeduplicateCommand constructor.
-     *
-     * @param ContactDeduper      $contactDeduper
-     * @param TranslatorInterface $translator
-     * @param NotificationModel   $notificationModel
-     * @param UserModel           $userModel
-     * @param IntegrationHelper   $integrationHelper
-     * @param Logger              $logger
      */
     public function __construct(ContactDeduper $contactDeduper, TranslatorInterface $translator, NotificationModel $notificationModel, UserModel $userModel, IntegrationHelper $integrationHelper, Logger $logger)
     {
         parent::__construct($contactDeduper, $translator);
 
         $this->notificationModel = $notificationModel;
-        $this->translator = $translator;
-        $this->contactDeduper = $contactDeduper;
-        $this->userModel = $userModel;
+        $this->translator        = $translator;
+        $this->contactDeduper    = $contactDeduper;
+        $this->userModel         = $userModel;
         $this->integrationHelper = $integrationHelper;
-        $this->logger = $logger;
+        $this->logger            = $logger;
     }
 
     public function configure()
@@ -103,10 +96,6 @@ EOT
             );
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
         $integration = $this->integrationHelper->getIntegrationObject('CustomDeduplicate');
@@ -117,18 +106,19 @@ EOT
             );
             $this->sendDisabledNotification();
             $this->logger->debug($message);
+
             return 0;
         }
 
         $notify = (bool) $input->getOption('notify');
-        $key = __CLASS__;
+        $key    = __CLASS__;
         if (!$this->checkRunStatus($input, $output, $key)) {
             if ($notify) {
                 $this->sendProgressNotification();
             }
+
             return 0;
         }
-
 
         if ($notify) {
             $this->sendStartNotification();
@@ -151,6 +141,7 @@ EOT
         if ($notify) {
             $this->sendEndNotification($count);
         }
+
         return 0;
     }
 
@@ -188,7 +179,7 @@ EOT
     private function sendEndNotification($count)
     {
         $this->notificationModel->addNotification(
-            $this->translator->trans('plugin.custom.deduplication.notification.result.count',[
+            $this->translator->trans('plugin.custom.deduplication.notification.result.count', [
                 '%count%' => $count,
             ]),
 

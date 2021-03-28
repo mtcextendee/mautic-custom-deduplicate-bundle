@@ -20,7 +20,7 @@ return [
                 'arguments' => [
                     'mautic.helper.integration',
                     'router',
-                    'translator'
+                    'translator',
                 ],
             ],
             'mautic.plugin.custom.deduplicate.contacts.subscriber' => [
@@ -37,23 +37,23 @@ return [
                     'doctrine.orm.entity_manager',
                     'mautic.point.model.trigger',
                     'mautic.lead.repository.lead',
-                    'mautic.plugin.custom.duplicate.fields'
+                    'mautic.plugin.custom.duplicate.fields',
                 ],
             ],
             'mautic.plugin.custom.duplicate.fields' => [
                 'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\Fields::class,
                 'arguments' => [
-                    'mautic.helper.integration'
+                    'mautic.helper.integration',
                 ],
             ],
             'mautic.plugin.custom.duplicate.command.execute' => [
                 'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\Deduplicate\CommandExecution::class,
                 'arguments' => [
-                    'mautic.helper.core_parameters'
+                    'mautic.helper.core_parameters',
                 ],
             ],
         ],
-        'command'=>[
+        'command'=> [
             'mautic.plugin.custom.deduplicate.command' => [
                 'class'     => \MauticPlugin\MauticCustomDeduplicateBundle\Command\CustomDeduplicateCommand::class,
                 'arguments' => [
@@ -62,7 +62,7 @@ return [
                     'mautic.core.model.notification',
                     'mautic.user.model.user',
                     'mautic.helper.integration',
-                    'monolog.logger.mautic'
+                    'monolog.logger.mautic',
                 ],
                 'tag' => 'console.command',
             ],

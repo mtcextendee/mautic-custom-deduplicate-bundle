@@ -23,27 +23,12 @@ class CustomDuplications
     private $entityManager;
 
     /**
-     * @var TriggerModel
-     */
-    private $triggerModel;
-
-    /**
-     * @var LeadRepository
-     */
-    private $leadRepository;
-
-    /**
      * @var Fields
      */
     private $fields;
 
     /**
      * CustomDuplications constructor.
-     *
-     * @param EntityManager  $entityManager
-     * @param TriggerModel   $triggerModel
-     * @param LeadRepository $leadRepository
-     * @param Fields         $fields
      */
     public function __construct(
         EntityManager $entityManager,
@@ -51,11 +36,8 @@ class CustomDuplications
         LeadRepository $leadRepository,
         Fields $fields
     ) {
-
         $this->entityManager  = $entityManager;
-        $this->triggerModel   = $triggerModel;
-        $this->leadRepository = $leadRepository;
-        $this->fields = $fields;
+        $this->fields         = $fields;
     }
 
     /**
@@ -72,7 +54,6 @@ class CustomDuplications
                 return $this->getContactsByUniqueFields($uniqueData);
             }
         }
-
     }
 
     /**
@@ -134,26 +115,24 @@ class CustomDuplications
             ->setParameter('ids', array_keys($leads))
             ->orderBy('l.dateAdded', 'DESC')
             ->addOrderBy('l.id', 'DESC');
-        $entities = $q->getQuery()
-            ->getResult();
 
-        return $entities;
+        return $q->getQuery()
+            ->getResult();
     }
 
     /**
-     * @param array $queryFields
-     *
      * @return array
      */
     private function getCustomUniqueData(array $queryFields)
     {
-        $uniqueLeadFields = $this->fields->getCustomUniqueFields();
+        $uniqueLeadFields    = $this->fields->getCustomUniqueFields();
         $uniqueLeadFieldData = [];
         foreach ($queryFields as $k => $v) {
             if (in_array($k, $uniqueLeadFields)) {
                 $uniqueLeadFieldData[$k] = $v;
             }
         }
+
         return $uniqueLeadFieldData;
     }
 }

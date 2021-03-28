@@ -30,13 +30,13 @@ class Fields
     private $settings;
 
     public function __construct(IntegrationHelper $integrationHelper)
-   {
-       $this->integrationHelper = $integrationHelper;
-       $integration = $this->integrationHelper->getIntegrationObject('CustomDeduplicate');
-       if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
-           $this->settings = $integration->mergeConfigToFeatureSettings();
-       }
-   }
+    {
+        $this->integrationHelper = $integrationHelper;
+        $integration             = $this->integrationHelper->getIntegrationObject('CustomDeduplicate');
+        if ($integration && $integration->getIntegrationSettings()->getIsPublished()) {
+            $this->settings = $integration->mergeConfigToFeatureSettings();
+        }
+    }
 
     /**
      * @return array
@@ -45,7 +45,6 @@ class Fields
     {
         return isset($this->settings['skipFields']) ? $this->settings['skipFields'] : [];
     }
-
 
     /**
      * @return array

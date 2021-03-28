@@ -15,12 +15,10 @@ use Mautic\CoreBundle\Controller\CommonController;
 
 class CustomDeduplicateController extends CommonController
 {
-
     public function runAction()
     {
-
         $flashes         = [];
-        $routeContext = 'contact';
+        $routeContext    = 'contact';
         $contentTemplate = 'MauticLeadBundle:Lead:index';
         $activeLink      = '#mautic_contact_index';
         $mauticContent   = 'lead';
@@ -28,7 +26,7 @@ class CustomDeduplicateController extends CommonController
             'mautic_'.$routeContext.'_index'
         );
         $this->get('mautic.plugin.custom.duplicate.command.execute')->execute();
-            $flashes[] = [
+        $flashes[] = [
                 'type'    => 'notice',
                 'msg'     => $this->translator->trans('plugin.custom.deduplication.command'),
             ];
