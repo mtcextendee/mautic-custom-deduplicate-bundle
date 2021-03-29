@@ -12,7 +12,7 @@ and prevent multiple deduplicate run.
 
 ### Command line
 - `composer require mtcextendee/mautic-custom-deduplicate-bundle`
-- `php app/console mautic:plugins:reload`
+- `php bin/console mautic:plugins:reload`
 - Go to /s/plugins and setup Custom Deduplicate integration
 
 ### Manual 
@@ -31,7 +31,7 @@ and prevent multiple deduplicate run.
 ## Usage
 
 - Require this pull request https://github.com/mautic/mautic/pull/9844
-- From console: `php app/console mautic:contacts:deduplicate:custom`
+- From console: `php bin/console mautic:contacts:deduplicate:custom`
 - From Mautic 
 
 <img src="https://user-images.githubusercontent.com/462477/57340051-7b287d80-7134-11e9-9caf-9f91b0482793.png" width="250px">
